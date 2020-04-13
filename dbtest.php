@@ -7,30 +7,26 @@
  
 <body>
 <?php
-// Verbindungsaufbau und Auswahl der Datenbank
-$dbconn = pg_connect("host=rose.schubs.at dbname=chatdb user=chat password=chat")
-    or die('Verbindungsaufbau fehlgeschlagen: ' . pg_last_error());
-
-// Eine SQL-Abfrage ausführen
-$query = 'SELECT * FROM public.user';
-$result = pg_query($query) or die('Abfrage fehlgeschlagen: ' . pg_last_error());
-
-// Ergebnisse in HTML ausgeben
-echo "<table>\n";
-while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
-    echo "\t<tr>\n";
-    foreach ($line as $col_value) {
-        echo "\t\t<td>$col_value</td>\n";
+include "db_utils.php";
+try {
+    $dbConnection = Dbutils\connect();
+    $result = Dbutils\queryParams($dbConnection, "SELECT * FROM public.user", null);
+    // Ergebnisse in HTML ausgeben
+    echo "<table>\n";
+    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+        echo "\t<tr>\n";
+        foreach ($line as $col_value) {
+            echo "\t\t<td>$col_value</td>\n";
+        }
+        echo "\t</tr>\n";
     }
-    echo "\t</tr>\n";
+    echo "</table>\n";
+} catch(Exception $e) {
+    error_log($e->get_Message());
+} finally {
+    Dbutils\freeResult($result);
+    Dbutils\close($dbConnection);
 }
-echo "</table>\n";
-
-// Speicher freigeben
-pg_free_result($result);
-
-// Verbindung schließen
-pg_close($dbconn);
 ?>
 </body>
 </html>
