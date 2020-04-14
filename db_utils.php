@@ -1,9 +1,9 @@
 <?php
-namespace Dbutils;
+namespace AkadChat\Dbutils;
 require "settings.php";
 function connect() {
     $dbConnection = false;
-    $params = sprintf("host=". \Settings\dbHost ." dbname=". \Settings\dbName ." user=". \Settings\dbUser ." password=". \Settings\dbPassword ." connect_timeout=5");
+    $params = sprintf("host=". \AkadChat\Settings\dbHost ." dbname=". \AkadChat\Settings\dbName ." user=". \AkadChat\Settings\dbUser ." password=". \AkadChat\Settings\dbPassword ." connect_timeout=5");
     $dbConnection = pg_connect($params);
     if (!$dbConnection) {
         $error = pg_last_error();
