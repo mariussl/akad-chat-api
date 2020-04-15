@@ -11,7 +11,14 @@ $userRepository->setDbConnection($dbConnection);
 $userService = new \AkadChat\Service\UserService();
 $userService->setRepository($userRepository);
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $result = $userService->list();
+    if (isset($_GET["name"])) {
+        $name = htmlspecialchars($_GET["name"]);
+    }
+    if (!empty($name)) {
+        $result = $userService->get($name);
+    } else {
+        $result = $userService->list();
+    }
     $message = new \AkadChat\Api\Message();
     $message->type = "1";
     $message->payload = $result;

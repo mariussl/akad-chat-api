@@ -12,5 +12,10 @@ class RoomRepository {
         return \AkadChat\Dbutils\queryParams($this->dbConnection, "SELECT * FROM $this->tableId", null);        
     }
 
+    public function get($name) {
+        return \AkadChat\Dbutils\queryParams($this->dbConnection,
+            "SELECT * FROM $this->tableId where name = $1", array($name));
+    }
+
 }
 ?>

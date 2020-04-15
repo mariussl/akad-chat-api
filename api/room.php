@@ -11,7 +11,14 @@ $roomRepository->setDbConnection($dbConnection);
 $roomService = new \AkadChat\Service\RoomService();
 $roomService->setRepository($roomRepository);
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $result = $roomService->list();
+    if (isset($_GET["name"])) {
+        $name = htmlspecialchars($_GET["name"]);
+    }
+    if (!empty($name)) {
+        $result = $roomService->get($name);
+    } else {
+        $result = $roomService->list();
+    }
     $message = new \AkadChat\Api\Message();
     $message->type = "1";
     $message->payload = $result;

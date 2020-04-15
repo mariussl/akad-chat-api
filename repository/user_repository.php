@@ -12,5 +12,10 @@ class UserRepository {
         return \AkadChat\Dbutils\queryParams($this->dbConnection, "SELECT * FROM $this->tableId", null);        
     }
 
+    public function get($name) {
+        return \AkadChat\Dbutils\queryParams($this->dbConnection,
+            "SELECT * FROM ".$this->tableId." where ".$this->tableId.".name = $1", array($name));
+    }
+
 }
 ?>
