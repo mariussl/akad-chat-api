@@ -1,7 +1,7 @@
 <?php
 require("../service/user_service.php");
 require("../repository/user_repository.php");
-require("message.php");
+require("response.php");
 require("../db_utils.php");
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     } else {
         $result = $userService->list();
     }
-    $message = new \AkadChat\Api\Message();
-    $message->type = "1";
-    $message->payload = $result;
-    echo json_encode($message);
+    $response = new \AkadChat\Api\Response();
+    $response->type = "1";
+    $response->payload = $result;
+    echo json_encode($response);
 } elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
 } elseif ($_SERVER["REQUEST_METHOD"] === "PUT") {
 } else {
