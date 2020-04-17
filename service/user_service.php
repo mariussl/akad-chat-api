@@ -36,5 +36,17 @@ class UserService {
         }
         return $user;
     }
+
+    public function save($newUser) {
+        if (!empty($newUser)) {
+            try {
+                $this->repository->save($newUser);
+            } catch(Exception $e) {
+                error_log($e->get_Message());
+                return false;
+            }
+        }
+        return true;
+    }
 }
 ?>

@@ -17,5 +17,11 @@ class UserRepository {
             "SELECT * FROM ".$this->tableId." where ".$this->tableId.".name = $1", array($name));
     }
 
+    public function save($newUser) {
+        \AkadChat\Dbutils\queryParams($this->dbConnection,
+            "INSERT INTO public.\"user\" (name, color, lastlogin) VALUES ($1, $2, now());",
+            array($newUser->name, $newUser->color));
+    }
+
 }
 ?>

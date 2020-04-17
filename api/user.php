@@ -24,6 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $response->payload = $result;
     echo json_encode($response);
 } elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $json = file_get_contents('php://input');
+    $newUser = json_decode($json);
+    $result = $userService->save($newUser);
+    $response = new \AkadChat\Api\Response();
+    $response->type = "1";
+    $response->payload = $result;
+    echo json_encode($response);
 } elseif ($_SERVER["REQUEST_METHOD"] === "PUT") {
 } else {
     http_response_code(404);
