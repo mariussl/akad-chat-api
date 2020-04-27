@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     }
     if (!empty($id)) {
         $result = $messageService->get($id);
+    } elseif (isset($_GET["roomname"])) {
+        $roomname = htmlspecialchars($_GET["roomname"]);
+        $messageList = $messageService->list($roomname);
     } else {
-        if (isset($_GET["roomname"])) {
-            $roomname = htmlspecialchars($_GET["roomname"]);
-            $messageList = $messageService->list($roomname);
-        }
+        $messageList = [];
     }
     $response = new \AkadChat\Api\Response();
     $response->type = "1";
@@ -35,6 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $response->payload = $result;
     echo json_encode($response);
 } elseif ($_SERVER["REQUEST_METHOD"] === "PUT") {
+    http_response_code(200);
+} elseif ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
+    header("Access-Control-Allow-Headers: *");
+    http_response_code(200);
 } else {
     http_response_code(404);
     echo json_encode(

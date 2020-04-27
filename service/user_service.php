@@ -38,6 +38,9 @@ class UserService {
     }
 
     public function save($newUser) {
+        if (strlen($newUser->color) > 6) {
+            $newUser->color = substr($newUser->color, 1, 6);
+        }
         if (!empty($newUser)) {
             try {
                 $this->repository->save($newUser);
